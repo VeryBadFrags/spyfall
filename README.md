@@ -5,12 +5,12 @@
 
 A multiplayer social deduction game inspired by [Spyfall](https://hwint.ru/portfolio-item/spyfall/).
 
-[♟️ Play the game](https://spy.verybadfrags.com)
-
 <details>
 <summary>🖥️ Game screenshot</summary>
 <img alt="Game screenshot" src="docs/spyfall-example-01.png"/>
 </details>
+
+- [♟️ Play the game](https://spy.verybadfrags.com)
 
 - [🧑‍🎨 Client code](https://github.com/VeryBadFrags/spyfall-client)
 - [🖥️ Server code](https://github.com/VeryBadFrags/spyfall-server)
