@@ -1,0 +1,6 @@
+[submodule "spyfall-client"]
+	path = spyfall-client
+	url = git@github.com:VeryBadFrags/spyfall-client.git
+[submodule "spyfall-server"]
+	path = spyfall-server
+	url = git@github.com:VeryBadFrags/spyfall-server.git
