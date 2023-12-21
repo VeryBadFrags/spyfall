@@ -21,3 +21,18 @@ Hosted on [Netlify](https://www.netlify.com) & [Render](https://render.com).
 
 - [🧑‍🎨 Client code](https://github.com/VeryBadFrags/spyfall-client)
 - [🤖 Server code](https://github.com/VeryBadFrags/spyfall-server)
+
+## Local setup
+
+### Get submodules
+
+```sh
+git submodule init
+git submodule update
+```
+
+### Run server & client in parallel
+
+```sh
+make -j2
+```
