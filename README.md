@@ -5,14 +5,19 @@
 
 A multiplayer social deduction game inspired by [Spyfall](https://hwint.ru/portfolio-item/spyfall/).
 
-<details>
-<summary>🖥️ Game screenshot</summary>
-<img alt="Game screenshot" src="docs/spyfall-example-01.png"/>
-</details>
+- [▶️ Play the game](https://spy.verybadfrags.com)
 
-- [♟️ Play the game](https://spy.verybadfrags.com)
+![Game screenshot](docs/spyfall-example-01.png)
 
----
+## Stack
+
+🛠️ Built with [Node](https://nodejs.org/en),
+[React](https://react.dev),
+[Bootstrap](https://getbootstrap.com),
+[Typescript](https://www.typescriptlang.org),
+and [socket.io](https://socket.io).
+
+Hosted on [Netlify](https://www.netlify.com) & [Render](https://render.com).
 
 - [🧑‍🎨 Client code](https://github.com/VeryBadFrags/spyfall-client)
 - [🤖 Server code](https://github.com/VeryBadFrags/spyfall-server)
