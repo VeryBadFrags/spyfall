@@ -17,8 +17,6 @@ A multiplayer social deduction game inspired by [Spyfall](https://hwint.ru/portf
 [Typescript](https://www.typescriptlang.org),
 and [socket.io](https://socket.io).
 
-Hosted on [Netlify](https://www.netlify.com) & [Render](https://render.com).
-
 - [🧑‍🎨 Client code](https://github.com/VeryBadFrags/spyfall-client)
 - [🤖 Server code](https://github.com/VeryBadFrags/spyfall-server)
 
