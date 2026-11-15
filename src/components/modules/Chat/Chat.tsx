@@ -51,11 +51,11 @@ interface ChatProps {
 
 export default function Chat(props: ChatProps) {
 	const [inputText, setInputText] = useState("");
-	const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const inputRef = useRef<HTMLInputElement>(null);
 	const gameStarted = useLobbyStore((state) => state.gameStarted);
 	const chatContent = useChatStore((state) => state.chatContent);
 
-	function handleChatSend(event: React.FormEvent<HTMLFormElement>) {
+	function handleChatSend(event: React.SubmitEvent<HTMLFormElement>) {
 		event.preventDefault();
 		props.sendChatCallBack(ClientEvent.ChatEvent, inputText);
 		setInputText("");

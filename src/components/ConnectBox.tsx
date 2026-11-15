@@ -29,7 +29,7 @@ export default function ConnectBox(props: ConnectProps) {
 	const setIsConnected = useLobbyStore((state) => state.setIsConnected);
 	const setIsInLobby = useLobbyStore((state) => state.setIsInLobby);
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		setIsInLobby(true);
 

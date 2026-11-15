@@ -10,14 +10,14 @@ interface NewGameFormProps {
 }
 
 export default function NewGameForm({ connectionManager }: NewGameFormProps) {
-	const readyRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+	const readyRef = useRef<HTMLInputElement>(null);
 	const isPlayerReady = useLobbyStore((state) => state.isPlayerReady);
 	const setIsPlayerReady = useLobbyStore((state) => state.setIsPlayerReady);
 
 	const handleStartGame = useCallback(
-		(event: React.FormEvent<HTMLFormElement>) => {
+		(event: React.SubmitEvent<HTMLFormElement>) => {
 			event.preventDefault();
-			if (readyRef.current.checked) {
+			if (readyRef.current?.checked) {
 				connectionManager.send(ClientEvent.StartGame);
 			} else {
 				// TODO printError you are not ready
