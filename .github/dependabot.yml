@@ -9,6 +9,12 @@ updates:
     commit-message:
       prefix: "chore"
       include: "scope"
+    # Storybook is upgraded manually via `pnpm storybook:upgrade`
+    # (runs migrations that Dependabot can't)
+    ignore:
+      - dependency-name: "storybook"
+      - dependency-name: "@storybook/*"
+      - dependency-name: "eslint-plugin-storybook"
     groups:
       production:
         dependency-type: "production"

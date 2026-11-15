@@ -14,7 +14,8 @@
 		"check": "biome check --write",
 		"clean": "rm -rf build/",
 		"storybook": "storybook dev -p 6006",
-		"build-storybook": "storybook build"
+		"storybook:build": "storybook build",
+		"storybook:upgrade": "pnpm dlx storybook@latest upgrade"
 	},
 	"dependencies": {
 		"@catppuccin/palette": "^1.8.0",
@@ -35,8 +36,8 @@
 		"zustand": "^5.1.0"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.4.16",
-		"@storybook/react-vite": "^10.6.5",
-		"storybook": "^10.6.5"
+		"@biomejs/biome": "2.6.6",
+		"@storybook/react-vite": "^10.6.7",
+		"storybook": "^10.6.7"
 	}
 }
