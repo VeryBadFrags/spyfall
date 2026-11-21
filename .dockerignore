@@ -1,0 +1,10 @@
+**/node_modules
+**/dist
+**/.netlify
+**/*.md
+.git
+.github
+.vscode
+docs
+packages/*/docs
+packages/client/.claude

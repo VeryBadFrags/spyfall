@@ -1,0 +1,62 @@
+import { useCallback, useRef } from "react";
+import "./NewGameForm.scss";
+import { useLobbyStore } from "@store/store";
+import type ConnectionManager from "@utils/connectionManager";
+import { FaTrafficLight } from "react-icons/fa";
+
+interface NewGameFormProps {
+	connectionManager: ConnectionManager;
+}
+
+export default function NewGameForm({ connectionManager }: NewGameFormProps) {
+	const readyRef = useRef<HTMLInputElement>(null);
+	const isPlayerReady = useLobbyStore((state) => state.isPlayerReady);
+	const setIsPlayerReady = useLobbyStore((state) => state.setIsPlayerReady);
+
+	const handleStartGame = useCallback(
+		(event: React.SubmitEvent<HTMLFormElement>) => {
+			event.preventDefault();
+			if (readyRef.current?.checked) {
+				connectionManager.send("start-game");
+			} else {
+				// TODO printError you are not ready
+			}
+		},
+		[connectionManager],
+	);
+
+	return (
+		<div>
+			<form className="form-inline" onSubmit={handleStartGame}>
+				<div className="form-check form-switch fs-5 mb-3">
+					<input
+						id="ready-check"
+						className={`form-check-input${isPlayerReady ? " bg-success" : ""}`}
+						type="checkbox"
+						role="switch"
+						aria-checked={isPlayerReady}
+						name="ready-check"
+						required
+						autoComplete="off"
+						checked={isPlayerReady}
+						ref={readyRef}
+						onChange={() => {}}
+						onClick={(event) => {
+							const target = event.target as HTMLInputElement;
+							connectionManager?.send("player-ready", {
+								ready: target.checked,
+							});
+							setIsPlayerReady(target.checked);
+						}}
+					/>
+					<label htmlFor="ready-check" className="clickable form-check-label">
+						Ready
+					</label>
+				</div>
+				<button type="submit" className="btn btn-primary shadow">
+					<FaTrafficLight /> Start new round
+				</button>
+			</form>
+		</div>
+	);
+}

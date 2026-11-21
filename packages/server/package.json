@@ -1,0 +1,30 @@
+{
+	"name": "spyfall-server",
+	"private": true,
+	"description": "The backend server for https://spyfall.verybadfrags.com",
+	"main": "src/main.ts",
+	"scripts": {
+		"dev": "node --watch --experimental-transform-types src/main.ts",
+		"start": "node --experimental-transform-types src/main.ts",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"typecheck": "tsc",
+		"format": "biome format --write",
+		"lint": "biome check",
+		"lint:fix": "biome check --write",
+		"ci": "biome ci"
+	},
+	"keywords": [
+		"spyfall"
+	],
+	"author": "VeryBadFrags",
+	"license": "MIT",
+	"type": "module",
+	"dependencies": {
+		"socket.io": "^4.8.4"
+	},
+	"devDependencies": {
+		"@types/node": "^26.6.6",
+		"spyfall-types": "workspace:*",
+		"typescript": "^7.0.2"
+	}
+}

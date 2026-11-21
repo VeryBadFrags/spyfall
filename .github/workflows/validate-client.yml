@@ -1,0 +1,52 @@
+name: Validate Client
+
+on:
+  push:
+    branches: ["main"]
+    paths: &paths
+      - "packages/client/**"
+      - "packages/types/**"
+      - "package.json"
+      - "biome.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - ".github/workflows/validate-client.yml"
+  pull_request:
+    branches: ["main"]
+    paths: *paths
+
+jobs:
+  validate:
+    name: Lint and Build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: packages/client
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # Uses the version from the root package.json's packageManager field
+      - name: Install pnpm
+        uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+
+      - name: Install Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --filter spyfall --filter spyfall-client...
+
+      - name: Run Lint
+        run: pnpm run lint
+        continue-on-error: true
+
+      - name: Build Storybook
+        run: pnpm run storybook:build
+
+      - name: Run Build
+        run: pnpm run build
