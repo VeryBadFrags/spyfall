@@ -7,6 +7,7 @@ on:
       - "packages/server/**"
       - "packages/types/**"
       - "package.json"
+      - "biome.json"
       - "pnpm-lock.yaml"
       - "pnpm-workspace.yaml"
       - ".github/workflows/validate-server.yml"
@@ -38,7 +39,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --filter spyfall-server...
+        run: pnpm install --frozen-lockfile --filter spyfall --filter spyfall-server...
 
       - name: Run Biome CI
         run: pnpm run ci

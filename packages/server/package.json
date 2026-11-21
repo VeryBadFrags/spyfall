@@ -23,7 +23,6 @@
 		"socket.io": "^4.8.4"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.6.8",
 		"@types/node": "^26.6.6",
 		"spyfall-types": "workspace:*",
 		"typescript": "^7.0.2"

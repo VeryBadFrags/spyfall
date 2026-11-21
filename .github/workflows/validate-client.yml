@@ -7,6 +7,7 @@ on:
       - "packages/client/**"
       - "packages/types/**"
       - "package.json"
+      - "biome.json"
       - "pnpm-lock.yaml"
       - "pnpm-workspace.yaml"
       - ".github/workflows/validate-client.yml"
@@ -38,7 +39,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --filter spyfall-client...
+        run: pnpm install --frozen-lockfile --filter spyfall --filter spyfall-client...
 
       - name: Run Lint
         run: pnpm run lint
