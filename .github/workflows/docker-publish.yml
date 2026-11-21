@@ -24,8 +24,8 @@ on:
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
-  # Keep publishing to the same image name as the former spyfall-server repo
-  IMAGE_NAME: ${{ github.repository_owner }}/spyfall-server
+  # github.repository as <account>/<repo>, i.e. ghcr.io/verybadfrags/spyfall
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build:
