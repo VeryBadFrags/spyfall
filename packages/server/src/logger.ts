@@ -1,4 +1,4 @@
-import type { ClientEventName, ServerEventName } from "spyfall-protocol";
+import type { ClientEventName, ServerEventName } from "spyfall-types";
 
 /** Protocol events, plus server-side lifecycle events that are only logged */
 type LoggedEvent =

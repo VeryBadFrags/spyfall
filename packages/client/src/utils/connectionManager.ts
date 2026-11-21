@@ -5,7 +5,7 @@ import type {
 	ClientToServerEvents,
 	ServerMessage,
 	ServerToClientEvents,
-} from "spyfall-protocol";
+} from "spyfall-types";
 
 type GameSocket = Socket<ServerToClientEvents, ClientToServerEvents>;
 

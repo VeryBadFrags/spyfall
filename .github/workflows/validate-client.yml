@@ -5,7 +5,7 @@ on:
     branches: ["main"]
     paths: &paths
       - "packages/client/**"
-      - "packages/protocol/**"
+      - "packages/types/**"
       - "package.json"
       - "pnpm-lock.yaml"
       - "pnpm-workspace.yaml"

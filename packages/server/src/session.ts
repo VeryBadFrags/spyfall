@@ -2,7 +2,7 @@ import type {
 	ChatPayload,
 	LobbyStatusPayload,
 	TimePayload,
-} from "spyfall-protocol";
+} from "spyfall-types";
 import { allAvatars, roundDurationSeconds } from "./constants.ts";
 import { LogField, logEvent, logger } from "./logger.ts";
 import type { Player } from "./player.ts";

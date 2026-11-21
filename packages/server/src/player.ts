@@ -6,7 +6,7 @@ import type {
 	GamePayload,
 	LobbyStatusPayload,
 	ServerToClientEvents,
-} from "spyfall-protocol";
+} from "spyfall-types";
 
 export type GameSocket = Socket<ClientToServerEvents, ServerToClientEvents>;
 

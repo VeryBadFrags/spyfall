@@ -1,4 +1,4 @@
-import type { GamePayload } from "spyfall-protocol";
+import type { GamePayload } from "spyfall-types";
 import { LogField, logEvent } from "./logger.ts";
 import type { Session } from "./session.ts";
 import { getRandomIndexInArray } from "./utils/random.ts";

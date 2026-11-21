@@ -9,7 +9,7 @@ import { retrieveCurrentLobby } from "@utils/lobbyHelper";
 import { umamiIdentify } from "@utils/umami";
 import { useEffect, useState } from "react";
 import { FaDice, FaUser } from "react-icons/fa";
-import type { ServerMessage } from "spyfall-protocol";
+import type { ServerMessage } from "spyfall-types";
 
 interface ConnectProps {
 	connectionManager: ConnectionManager;

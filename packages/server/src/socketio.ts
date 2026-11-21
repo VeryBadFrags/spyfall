@@ -1,10 +1,7 @@
 import type { Server as HttpServer } from "node:http";
 import process from "node:process";
 import { Server, type ServerOptions } from "socket.io";
-import type {
-	ClientToServerEvents,
-	ServerToClientEvents,
-} from "spyfall-protocol";
+import type { ClientToServerEvents, ServerToClientEvents } from "spyfall-types";
 import { logger } from "./logger.ts";
 
 export type GameServer = Server<ClientToServerEvents, ServerToClientEvents>;

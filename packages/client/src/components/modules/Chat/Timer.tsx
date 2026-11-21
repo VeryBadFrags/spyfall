@@ -1,6 +1,6 @@
 import { useToastStore } from "@store/store";
 import { useEffect, useRef, useState } from "react";
-import type { TimePayload } from "spyfall-protocol";
+import type { TimePayload } from "spyfall-types";
 import { create } from "zustand";
 import TimeDisplay from "./TimeDisplay";
 

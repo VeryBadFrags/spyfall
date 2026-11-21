@@ -4,7 +4,7 @@ import { useLobbyStore } from "@store/store";
 import { useRef, useState } from "react";
 import { FaPaperPlane } from "react-icons/fa";
 import { HiChatBubbleOvalLeftEllipsis } from "react-icons/hi2";
-import type { ChatPayload } from "spyfall-protocol";
+import type { ChatPayload } from "spyfall-types";
 import { create } from "zustand";
 import Timer from "./Timer";
 

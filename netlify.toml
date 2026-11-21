@@ -3,6 +3,6 @@
   base = "packages/client"
   command = "pnpm run build"
   publish = "dist"
-  # Skip the build (and save credits) unless the client or the shared protocol changed.
+  # Skip the build (and save credits) unless the client or the shared types changed.
   # Exit code 0 = no changes = cancel the build.
-  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ../protocol"
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ../types"

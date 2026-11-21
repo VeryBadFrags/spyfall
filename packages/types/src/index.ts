@@ -1,5 +1,5 @@
 /**
- * Websocket protocol shared by the Spyfall client and server.
+ * Websocket types shared by the Spyfall client and server.
  *
  * This package must only contain types: it is imported with `import type`,
  * so nothing from it exists at runtime. That keeps it usable by the server,

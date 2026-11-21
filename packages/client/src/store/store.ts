@@ -1,4 +1,4 @@
-import type { ClientData } from "spyfall-protocol";
+import type { ClientData } from "spyfall-types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { LocationData } from "../types/locationData.type";

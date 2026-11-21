@@ -1,5 +1,5 @@
 {
-	"name": "spyfall-protocol",
+	"name": "spyfall-types",
 	"private": true,
 	"version": "1.0.0",
 	"description": "Websocket payloads and events shared by the Spyfall client and server (types only)",

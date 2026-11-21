@@ -19,7 +19,7 @@ import ConnectionManager from "@utils/connectionManager";
 import { setCurrentLobby } from "@utils/lobbyHelper";
 import { umamiTrackRoundStarted } from "@utils/umami";
 import { useCallback, useEffect, useRef } from "react";
-import type { GamePayload, ServerMessage } from "spyfall-protocol";
+import type { GamePayload, ServerMessage } from "spyfall-types";
 
 const connectionManager = new ConnectionManager();
 

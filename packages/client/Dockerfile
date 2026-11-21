@@ -8,10 +8,10 @@ RUN corepack enable
 WORKDIR /app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages/client/package.json packages/client/
-COPY packages/protocol/package.json packages/protocol/
+COPY packages/types/package.json packages/types/
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --filter spyfall-client...
 COPY packages/client packages/client
-COPY packages/protocol packages/protocol
+COPY packages/types packages/types
 RUN pnpm --filter spyfall-client run build
 
 FROM nginx:stable-alpine-slim

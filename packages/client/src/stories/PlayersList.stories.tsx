@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useEffect } from "react";
-import type { ClientData } from "spyfall-protocol";
+import type { ClientData } from "spyfall-types";
 import PlayersList from "../components/PlayersList";
 import { useCrossedStore, useLobbyStore } from "../store/store";
 
