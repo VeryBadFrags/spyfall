@@ -16,9 +16,9 @@ A multiplayer social deduction game inspired by
 
 ## Stack
 
-🛠️ Built with [Node](https://nodejs.org),
-[Typescript](https://www.typescriptlang.org), and
-[socket.io](https://socket.io).
+- 🛠️ Built with [Node](https://nodejs.org),
+  [Typescript](https://www.typescriptlang.org), and
+  [socket.io](https://socket.io)
 - [💾 View the client source code](https://github.com/VeryBadFrags/spyfall-client)
 
 ## Run locally
