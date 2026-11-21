@@ -138,7 +138,7 @@ interface ToastState {
 	message: string;
 	show: boolean;
 	variant: ToastVariant;
-	timerId: number | null;
+	timerId: ReturnType<typeof setTimeout> | null;
 	showToast: (message: string, variant?: ToastVariant) => void;
 	hideToast: () => void;
 }

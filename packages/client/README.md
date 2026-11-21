@@ -18,7 +18,7 @@ A multiplayer social deduction game inspired by [Spyfall](https://hwint.ru/portf
 [Bootstrap](https://getbootstrap.com),
 and [socket.io](https://socket.io).
 
-- [💾 View the server code](https://github.com/VeryBadFrags/spyfall-server)
+- [💾 View the server code](../server)
 
 ## Setup
 
@@ -45,7 +45,7 @@ corepack enable
 
 ## Local development
 
-You'll need to run the server locally too. See <https://github.com/VeryBadFrags/spyfall-server#run-locally>.
+You'll need to run the server locally too. Run `pnpm dev` from the repository root to start both.
 
 ```sh
 mise dev

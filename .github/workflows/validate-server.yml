@@ -1,25 +1,33 @@
-name: Validate PR
+name: Validate Server
 
 on:
   push:
     branches: ["main"]
+    paths: &paths
+      - "packages/server/**"
+      - "packages/protocol/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - ".github/workflows/validate-server.yml"
   pull_request:
-    # The branches below must be a subset of the branches above
     branches: ["main"]
+    paths: *paths
 
 jobs:
   validate:
-    name: Run Lint and Build steps
+    name: Lint and Type Check
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      security-events: write
-      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+    defaults:
+      run:
+        working-directory: packages/server
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
 
-      # Uses the version from package.json's packageManager field
+      # Uses the version from the root package.json's packageManager field
       - name: Install pnpm
         uses: pnpm/action-setup@v6
 
@@ -30,7 +38,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile --filter spyfall-server...
 
       - name: Run Biome CI
         run: pnpm run ci

@@ -1,4 +1,4 @@
-name: Docker Build & Publish
+name: Server Docker Build & Publish
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -10,14 +10,22 @@ on:
     branches: ["main"]
     # Publish semver tags as releases.
     tags: ["v*.*.*"]
+    # Only rebuild when the server image contents can change (ignored for tag pushes)
+    paths:
+      - "packages/server/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - ".dockerignore"
+      - ".github/workflows/docker-publish.yml"
   # pull_request:
   #   branches: [ "main" ]
 
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
+  # Keep publishing to the same image name as the former spyfall-server repo
+  IMAGE_NAME: ${{ github.repository_owner }}/spyfall-server
 
 jobs:
   build:
@@ -77,6 +85,7 @@ jobs:
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
         with:
           context: .
+          file: packages/server/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

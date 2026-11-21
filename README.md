@@ -17,20 +17,26 @@ A multiplayer social deduction game inspired by [Spyfall](https://hwint.ru/portf
 [Typescript](https://www.typescriptlang.org),
 and [socket.io](https://socket.io).
 
-- [🧑‍🎨 Client code](https://github.com/VeryBadFrags/spyfall-client)
-- [🤖 Server code](https://github.com/VeryBadFrags/spyfall-server)
+## Repository layout
+
+This is a [pnpm workspace](https://pnpm.io/workspaces):
+
+- [🧑‍🎨 `packages/client`](packages/client) - the React web app (deployed on Netlify)
+- [🤖 `packages/server`](packages/server) - the socket.io server (published as a Docker image)
 
 ## Local setup
 
-### Get submodules
+### With [mise](https://mise.jdx.dev)
 
 ```sh
-git submodule init
-git submodule update
+mise install # only required once
+mise dev
 ```
 
-### Run server & client in parallel
+### With [Node](https://nodejs.org)
 
 ```sh
-make -j2
+corepack enable
+pnpm install
+pnpm dev # runs the server & client in parallel
 ```

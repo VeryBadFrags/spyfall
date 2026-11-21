@@ -1,0 +1,18 @@
+[tasks.dev]
+description = 'Run the client and server in parallel'
+run = 'pnpm run dev'
+depends = ['pnpm-install']
+
+[tasks.pnpm-install]
+description = 'Installs dependencies with pnpm'
+run = 'pnpm install'
+sources = ['package.json', 'packages/*/package.json', 'pnpm-lock.yaml', 'mise.toml']
+outputs = ['node_modules/.pnpm/lock.yaml']
+
+[env]
+# Use Corepack to install pnpm
+MISE_NODE_COREPACK = true
+
+[settings]
+# Use the Node version from .nvmrc
+idiomatic_version_file_enable_tools = ['node']

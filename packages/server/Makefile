@@ -29,7 +29,7 @@ lint:
 
 .PHONY: docker-build
 docker-build:
-	docker build -t spyfall-server .
+	docker build -f Dockerfile -t spyfall-server ../..
 
 .PHONY: docker-dev
 docker-dev:

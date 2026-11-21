@@ -1,0 +1,51 @@
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+version: 2
+updates:
+  # Covers every workspace package through the root pnpm-lock.yaml
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    # Storybook is upgraded manually via `pnpm storybook:upgrade`
+    # (runs migrations that Dependabot can't)
+    ignore:
+      - dependency-name: "storybook"
+      - dependency-name: "@storybook/*"
+      - dependency-name: "eslint-plugin-storybook"
+    groups:
+      production:
+        dependency-type: "production"
+        update-types: [minor, patch]
+      development:
+        dependency-type: "development"
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    groups:
+      actions:
+        update-types: [minor, patch]
+
+  - package-ecosystem: docker
+    directories:
+      - /packages/server
+      - /packages/client
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    ignore:
+      # move to the next Node LTS by hand
+      - dependency-name: node
+        update-types: ["version-update:semver-major"]
