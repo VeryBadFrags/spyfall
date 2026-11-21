@@ -1,7 +1,7 @@
 # 🕵️ Spyfall - Server
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](./LICENSE.txt)
-[![Docker Build & Publish](https://github.com/VeryBadFrags/spyfall/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/VeryBadFrags/spyfall/actions/workflows/docker-publish.yml)
+[![Server Docker Image](https://github.com/VeryBadFrags/spyfall/actions/workflows/build-docker.yml/badge.svg)](https://github.com/VeryBadFrags/spyfall/actions/workflows/build-docker.yml)
 [![Latest version](https://img.shields.io/github/v/tag/VeryBadFrags/spyfall?sort=semver)](https://github.com/VeryBadFrags/spyfall/tags)
 
 A multiplayer social deduction game inspired by

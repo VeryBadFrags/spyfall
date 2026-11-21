@@ -1,4 +1,4 @@
-name: Server Docker Build & Publish
+name: Server Docker Image
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -17,7 +17,7 @@ on:
       - "pnpm-lock.yaml"
       - "pnpm-workspace.yaml"
       - ".dockerignore"
-      - ".github/workflows/docker-publish.yml"
+      - ".github/workflows/build-docker.yml"
   # Build (without pushing) to validate the image on server PRs
   pull_request:
     branches: ["main"]
