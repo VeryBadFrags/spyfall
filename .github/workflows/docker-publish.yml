@@ -11,15 +11,17 @@ on:
     # Publish semver tags as releases.
     tags: ["v*.*.*"]
     # Only rebuild when the server image contents can change (ignored for tag pushes)
-    paths:
+    paths: &paths
       - "packages/server/**"
       - "package.json"
       - "pnpm-lock.yaml"
       - "pnpm-workspace.yaml"
       - ".dockerignore"
       - ".github/workflows/docker-publish.yml"
-  # pull_request:
-  #   branches: [ "main" ]
+  # Build (without pushing) to validate the image on server PRs
+  pull_request:
+    branches: ["main"]
+    paths: *paths
 
 env:
   # Use docker.io for Docker Hub if empty
