@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useEffect } from "react";
-
+import type { ClientData } from "spyfall-protocol";
 import PlayersList from "../components/PlayersList";
 import { useCrossedStore, useLobbyStore } from "../store/store";
-import type { ClientData } from "../types/clientData.type";
 
 const samplePlayers: ClientData[] = [
 	{ name: "Alice", avatar: "", ready: true },

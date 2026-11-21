@@ -1,16 +1,13 @@
-import type { Server } from "socket.io";
+import type {
+	ChatPayload,
+	LobbyStatusPayload,
+	TimePayload,
+} from "spyfall-protocol";
 import { allAvatars, roundDurationSeconds } from "./constants.ts";
-import { ClientEvent, ServerEvent } from "./events.ts";
 import { LogField, logEvent, logger } from "./logger.ts";
-import type { ChatPayload, LobbyStatusPayload, Player } from "./player.ts";
+import type { Player } from "./player.ts";
+import type { GameServer } from "./socketio.ts";
 import { getTimeInSeconds } from "./utils/time.ts";
-
-type TimePayload = {
-	/** The total length of a round in seconds */
-	durationSec: number;
-	/** The time left in the round in seconds */
-	timeLeftSec: number;
-};
 
 /**
  * @class
@@ -20,7 +17,7 @@ export class Session {
 	/** ID of the room */
 	id;
 	/** Socket.io Server */
-	io: Server;
+	io: GameServer;
 	players: Set<Player>;
 	avatars;
 	/** How many games have been started in this room */
@@ -28,7 +25,7 @@ export class Session {
 	/** EPOCH time the round started */
 	roundStartTime = 0;
 
-	constructor(id: string, io: Server) {
+	constructor(id: string, io: GameServer) {
 		this.id = id;
 		this.io = io;
 		this.players = new Set();
@@ -59,7 +56,7 @@ export class Session {
 		client.data.avatar = avatar ? avatar : "?";
 		client.data.name = `${avatar} ${client.data.name}`; // TODO keep name and avatar separate
 
-		client.sendSessionInfo(ServerEvent.SessionCreated, {
+		client.sendSessionInfo("session-created", {
 			sessionId: this.id,
 			identity: avatar,
 		} as LobbyStatusPayload);
@@ -73,7 +70,7 @@ export class Session {
 		logEvent({
 			room: this.id,
 			player: client.data.name,
-			type: ClientEvent.Disconnect,
+			type: "disconnect",
 			data: { [LogField.PlayersCount]: this.players.size },
 		});
 		this.broadcastChat({
@@ -87,7 +84,7 @@ export class Session {
 		this.roundStartTime = getTimeInSeconds();
 		logEvent({
 			room: this.id,
-			type: ServerEvent.StartGame,
+			type: "start-game",
 			data: {
 				[LogField.PlayersCount]: this.players.size,
 				[LogField.GamesPlayed]: this.gamesPlayed,
@@ -106,7 +103,7 @@ export class Session {
 	 * Send a message to all players in the room.
 	 */
 	broadcastChat(chat: ChatPayload): void {
-		this.io.to(this.id).emit(ServerEvent.ChatEvent, chat);
+		this.io.to(this.id).emit("chat-event", chat);
 	}
 
 	broadcastPeers(): void {
@@ -115,12 +112,12 @@ export class Session {
 			sessionId: this.id,
 			peers: clientsArray.map((cli) => cli.data),
 		} as LobbyStatusPayload;
-		this.io.to(this.id).emit(ServerEvent.SessionBroadcast, payload);
+		this.io.to(this.id).emit("session-broadcast", payload);
 	}
 
 	broadcastTime(): void {
 		const timeLeftSeconds = this.getTimeLeftSeconds();
-		this.io.to(this.id).emit(ServerEvent.Time, {
+		this.io.to(this.id).emit("time", {
 			durationSec: roundDurationSeconds,
 			timeLeftSec: timeLeftSeconds,
 		} as TimePayload);

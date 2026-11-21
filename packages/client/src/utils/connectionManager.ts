@@ -1,15 +1,16 @@
 import type { Socket } from "socket.io-client";
 import io from "socket.io-client";
-import type { AnyPayload } from "../types/anyPayload.type";
-import type { ChatPayload } from "../types/chatPayload.type";
-import { ClientEvent } from "../types/clientEvent";
-import type { GamePayload } from "../types/gamePayload.type";
-import type { LobbyStatusPayload } from "../types/lobbyStatus.type";
-import { ServerEvent } from "../types/serverEvent";
-import type { TimePayload } from "../types/timePayload.type";
+import type {
+	ClientEventName,
+	ClientToServerEvents,
+	ServerMessage,
+	ServerToClientEvents,
+} from "spyfall-protocol";
+
+type GameSocket = Socket<ServerToClientEvents, ClientToServerEvents>;
 
 export default class ConnectionManager {
-	socket: Socket | null;
+	socket: GameSocket | null;
 
 	constructor() {
 		this.socket = null;
@@ -21,10 +22,10 @@ export default class ConnectionManager {
 			this.socket = io(import.meta.env.VITE_API_URL);
 		}
 
-		this.socket.on(ClientEvent.Connect, () => {
+		this.socket.on("connect", () => {
 			setConnectedToServer(this.socket?.connected ?? false);
 		});
-		this.socket.on(ClientEvent.Disconnect, () => {
+		this.socket.on("disconnect", () => {
 			// TODO show error instead
 			// setConnectedToServer(this.socket.connected);
 		});
@@ -36,39 +37,39 @@ export default class ConnectionManager {
 		playerName: string,
 		sessionId: string,
 		connectionClosedCallback: () => void,
-		onMessageCallback: (type: string, data: AnyPayload) => void,
+		onMessageCallback: (message: ServerMessage) => void,
 		setConnectedToServer: (connected: boolean) => void,
 	) {
 		this.initSocket(setConnectedToServer);
-		this.send(ClientEvent.JoinSession, {
+		this.send("join-session", {
 			sessionId: sessionId,
 			playerName: playerName,
 			game: "spy",
 		});
 
-		this.socket?.on(ClientEvent.Disconnect, () => {
+		this.socket?.on("disconnect", () => {
 			// this.socket = null;
 			connectionClosedCallback();
 		});
 
-		this.socket?.on(ServerEvent.StartGame, (msg: GamePayload) => {
-			onMessageCallback(ServerEvent.StartGame, msg);
+		this.socket?.on("start-game", (data) => {
+			onMessageCallback({ type: "start-game", data });
 		});
 
-		this.socket?.on(ServerEvent.SessionBroadcast, (msg: LobbyStatusPayload) => {
-			onMessageCallback(ServerEvent.SessionBroadcast, msg);
+		this.socket?.on("session-broadcast", (data) => {
+			onMessageCallback({ type: "session-broadcast", data });
 		});
 
-		this.socket?.on(ServerEvent.SessionCreated, (msg: LobbyStatusPayload) => {
-			onMessageCallback(ServerEvent.SessionCreated, msg);
+		this.socket?.on("session-created", (data) => {
+			onMessageCallback({ type: "session-created", data });
 		});
 
-		this.socket?.on(ServerEvent.ChatEvent, (msg: ChatPayload) => {
-			onMessageCallback(ServerEvent.ChatEvent, msg);
+		this.socket?.on("chat-event", (data) => {
+			onMessageCallback({ type: "chat-event", data });
 		});
 
-		this.socket?.on(ServerEvent.Time, (msg: TimePayload) => {
-			onMessageCallback(ServerEvent.Time, msg);
+		this.socket?.on("time", (data) => {
+			onMessageCallback({ type: "time", data });
 		});
 	}
 
@@ -77,7 +78,10 @@ export default class ConnectionManager {
 		// this.socket = null;
 	}
 
-	send(type: ClientEvent, data?: unknown) {
-		this.socket?.emit(type, data);
+	send<E extends ClientEventName>(
+		type: E,
+		...args: Parameters<ClientToServerEvents[E]>
+	) {
+		this.socket?.emit(type, ...args);
 	}
 }

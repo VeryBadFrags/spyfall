@@ -1,0 +1,19 @@
+{
+	"name": "spyfall-protocol",
+	"private": true,
+	"version": "1.0.0",
+	"description": "Websocket payloads and events shared by the Spyfall client and server (types only)",
+	"license": "MIT",
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"scripts": {
+		"typecheck": "tsc",
+		"lint": "biome check"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.6.8",
+		"typescript": "^7.0.2"
+	}
+}

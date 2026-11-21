@@ -1,6 +1,5 @@
-import { ServerEvent } from "./events.ts";
+import type { GamePayload } from "spyfall-protocol";
 import { LogField, logEvent } from "./logger.ts";
-import type { GamePayload } from "./player.ts";
 import type { Session } from "./session.ts";
 import { getRandomIndexInArray } from "./utils/random.ts";
 
@@ -45,7 +44,7 @@ export function startGame(session: Session, customLocations: Set<string>) {
 	if (isAllSpies) {
 		logEvent({
 			room: session.id,
-			type: ServerEvent.StartGame,
+			type: "start-game",
 			data: { [LogField.Msg]: "All spies!" },
 		});
 	}

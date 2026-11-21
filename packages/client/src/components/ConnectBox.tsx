@@ -9,14 +9,12 @@ import { retrieveCurrentLobby } from "@utils/lobbyHelper";
 import { umamiIdentify } from "@utils/umami";
 import { useEffect, useState } from "react";
 import { FaDice, FaUser } from "react-icons/fa";
-import type { AnyPayload } from "../types/anyPayload.type";
-import type { LobbyStatusPayload } from "../types/lobbyStatus.type";
-import { ServerEvent } from "../types/serverEvent";
+import type { ServerMessage } from "spyfall-protocol";
 
 interface ConnectProps {
 	connectionManager: ConnectionManager;
 	onDisconnect: () => void;
-	onMessageCallback: (type: string, data: AnyPayload) => void;
+	onMessageCallback: (message: ServerMessage) => void;
 }
 
 export default function ConnectBox(props: ConnectProps) {
@@ -33,11 +31,11 @@ export default function ConnectBox(props: ConnectProps) {
 		event.preventDefault();
 		setIsInLobby(true);
 
-		const wrappedCallback = (type: string, data: AnyPayload) => {
-			if (type === ServerEvent.SessionCreated) {
-				umamiIdentify(playerName, (data as LobbyStatusPayload).sessionId);
+		const wrappedCallback = (message: ServerMessage) => {
+			if (message.type === "session-created") {
+				umamiIdentify(playerName, message.data.sessionId);
 			}
-			props.onMessageCallback(type, data);
+			props.onMessageCallback(message);
 		};
 
 		props.connectionManager.joinLobby(

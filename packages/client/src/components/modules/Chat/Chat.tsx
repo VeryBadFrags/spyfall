@@ -4,9 +4,8 @@ import { useLobbyStore } from "@store/store";
 import { useRef, useState } from "react";
 import { FaPaperPlane } from "react-icons/fa";
 import { HiChatBubbleOvalLeftEllipsis } from "react-icons/hi2";
+import type { ChatPayload } from "spyfall-protocol";
 import { create } from "zustand";
-import type { ChatPayload } from "../../../types/chatPayload.type";
-import { ClientEvent } from "../../../types/clientEvent";
 import Timer from "./Timer";
 
 const chatSize = 8;
@@ -46,7 +45,7 @@ export const useChatStore = create<CrossedState>((set) => ({
 }));
 
 interface ChatProps {
-	sendChatCallBack: (eventType: ClientEvent, message: string) => void;
+	sendChatCallBack: (message: string) => void;
 }
 
 export default function Chat(props: ChatProps) {
@@ -57,7 +56,7 @@ export default function Chat(props: ChatProps) {
 
 	function handleChatSend(event: React.SubmitEvent<HTMLFormElement>) {
 		event.preventDefault();
-		props.sendChatCallBack(ClientEvent.ChatEvent, inputText);
+		props.sendChatCallBack(inputText);
 		setInputText("");
 		// document.getElementById("chat-container")?.scrollIntoView();
 		document.getElementById("chat-input")?.focus();

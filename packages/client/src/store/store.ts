@@ -1,6 +1,6 @@
+import type { ClientData } from "spyfall-protocol";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { ClientData } from "../types/clientData.type";
 import type { LocationData } from "../types/locationData.type";
 
 interface sessionIdState {

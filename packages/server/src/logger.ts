@@ -1,4 +1,11 @@
-import type { ClientEvent, ServerEvent } from "./events.ts";
+import type { ClientEventName, ServerEventName } from "spyfall-protocol";
+
+/** Protocol events, plus server-side lifecycle events that are only logged */
+type LoggedEvent =
+	| ClientEventName
+	| ServerEventName
+	| "disconnect"
+	| "session-deleted";
 
 type LogLevel = "info" | "warn" | "error" | "debug";
 
@@ -47,7 +54,7 @@ type logPayload = {
 	room: string;
 	player?: string;
 	/** The type of event */
-	type: ServerEvent | ClientEvent;
+	type: LoggedEvent;
 	data?: Partial<Record<LogField, string | number>>;
 };
 

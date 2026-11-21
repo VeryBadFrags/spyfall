@@ -1,25 +1,17 @@
 import { createServer } from "node:http";
-import type { Socket } from "socket.io";
-import { ClientEvent, ServerEvent } from "./events.ts";
 import { LogField, logEvent, logger } from "./logger.ts";
-import { type ChatPayload, type LobbyStatusPayload, Player } from "./player.ts";
+import { type GameSocket, Player } from "./player.ts";
 import { Session } from "./session.ts";
 import { initSocketIO } from "./socketio.ts";
 import { startGame } from "./spy.ts";
 import { createId } from "./utils/random.ts";
-
-type JoinSessionData = {
-	sessionId: string;
-	playerName: string;
-	game: string;
-};
 
 const server = createServer();
 
 const io = initSocketIO(server);
 const sessions = new Map();
 
-function createClient(socket: Socket): Player {
+function createClient(socket: GameSocket): Player {
 	return new Player(socket);
 }
 
@@ -37,11 +29,11 @@ function getSession(id: string): Session {
 	return sessions.get(id);
 }
 
-io.on("connection", (socket: Socket) => {
+io.on("connection", (socket) => {
 	const client = createClient(socket);
 	let session: Session;
 
-	socket.on(ClientEvent.JoinSession, (data: JoinSessionData) => {
+	socket.on("join-session", (data) => {
 		if (session) {
 			leaveSession(session, client);
 		}
@@ -51,15 +43,15 @@ io.on("connection", (socket: Socket) => {
 			session = createSession();
 		}
 		// TODO event SessionCreated is sent twice?
-		client.sendSessionInfo(ServerEvent.SessionCreated, {
+		client.sendSessionInfo("session-created", {
 			sessionId: session.id,
-		} as LobbyStatusPayload);
+		});
 		if (session) {
 			client.data.name = data.playerName;
 			logEvent({
 				room: session.id,
 				player: client.data.name,
-				type: ClientEvent.JoinSession,
+				type: "join-session",
 				data: { [LogField.TotalRooms]: sessions.size },
 			});
 			if (session.join(client)) {
@@ -70,14 +62,14 @@ io.on("connection", (socket: Socket) => {
 		}
 	});
 
-	socket.on(ClientEvent.ChatEvent, (data: ChatPayload) => {
+	socket.on("chat-event", (data) => {
 		if (!session) {
 			socket.disconnect();
 		} else {
 			logEvent({
 				room: session.id,
 				player: client.data.name,
-				type: ServerEvent.ChatEvent,
+				type: "chat-event",
 				data: { [LogField.Msg]: data.message },
 			});
 			session.broadcastChat({
@@ -87,7 +79,7 @@ io.on("connection", (socket: Socket) => {
 		}
 	});
 
-	socket.on(ClientEvent.ClientReady, (data) => {
+	socket.on("player-ready", (data) => {
 		if (!session) {
 			socket.disconnect();
 		} else {
@@ -96,7 +88,7 @@ io.on("connection", (socket: Socket) => {
 		}
 	});
 
-	socket.on(ClientEvent.StartGame, () => {
+	socket.on("start-game", () => {
 		if (!session) {
 			socket.disconnect();
 		} else {
@@ -116,7 +108,7 @@ io.on("connection", (socket: Socket) => {
 		}
 	});
 
-	socket.on(ClientEvent.Disconnect, () => {
+	socket.on("disconnect", () => {
 		leaveSession(session, client);
 	});
 });
@@ -128,7 +120,7 @@ function leaveSession(session: Session, client: Player) {
 			sessions.delete(session.id);
 			logEvent({
 				room: session.id,
-				type: ServerEvent.SessionDeleted,
+				type: "session-deleted",
 				data: { [LogField.TotalRooms]: sessions.size },
 			});
 		}

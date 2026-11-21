@@ -19,13 +19,7 @@ import ConnectionManager from "@utils/connectionManager";
 import { setCurrentLobby } from "@utils/lobbyHelper";
 import { umamiTrackRoundStarted } from "@utils/umami";
 import { useCallback, useEffect, useRef } from "react";
-import type { AnyPayload } from "./types/anyPayload.type";
-import type { ChatPayload } from "./types/chatPayload.type";
-import type { ClientEvent } from "./types/clientEvent";
-import type { GamePayload } from "./types/gamePayload.type";
-import type { LobbyStatusPayload } from "./types/lobbyStatus.type";
-import { ServerEvent } from "./types/serverEvent";
-import type { TimePayload } from "./types/timePayload.type";
+import type { GamePayload, ServerMessage } from "spyfall-protocol";
 
 const connectionManager = new ConnectionManager();
 
@@ -146,26 +140,26 @@ export default function App() {
 	);
 
 	const onMessageCallback = useCallback(
-		(type: string, data: AnyPayload) => {
+		({ type, data }: ServerMessage) => {
 			switch (type) {
-				case ServerEvent.ChatEvent:
-					appendChat(data as ChatPayload);
+				case "chat-event":
+					appendChat(data);
 					break;
-				case ServerEvent.SessionBroadcast: // TODO using a wrapper will simplify type casting
-					setSessionId((data as LobbyStatusPayload).sessionId);
-					setPeers((data as LobbyStatusPayload).peers || []);
+				case "session-broadcast":
+					setSessionId(data.sessionId);
+					setPeers(data.peers || []);
 					break;
-				case ServerEvent.StartGame:
-					startGame(data as GamePayload);
+				case "start-game":
+					startGame(data);
 					break;
-				case ServerEvent.SessionCreated:
+				case "session-created":
 					setIsInLobby(true);
 					setErrorMessage("");
-					setSessionId((data as LobbyStatusPayload).sessionId);
-					setCurrentLobby((data as LobbyStatusPayload).sessionId);
+					setSessionId(data.sessionId);
+					setCurrentLobby(data.sessionId);
 					break;
-				case ServerEvent.Time:
-					setServerTime(data as TimePayload);
+				case "time":
+					setServerTime(data);
 					break;
 			}
 		},
@@ -180,12 +174,9 @@ export default function App() {
 		],
 	);
 
-	const sendChatCallBack = useCallback(
-		(eventType: ClientEvent, message: string) => {
-			connectionManager.send(eventType, { message: message });
-		},
-		[],
-	);
+	const sendChatCallBack = useCallback((message: string) => {
+		connectionManager.send("chat-event", { message: message });
+	}, []);
 
 	return (
 		<>

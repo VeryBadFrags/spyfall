@@ -3,7 +3,6 @@ import "./NewGameForm.scss";
 import { useLobbyStore } from "@store/store";
 import type ConnectionManager from "@utils/connectionManager";
 import { FaTrafficLight } from "react-icons/fa";
-import { ClientEvent } from "../../../types/clientEvent";
 
 interface NewGameFormProps {
 	connectionManager: ConnectionManager;
@@ -18,7 +17,7 @@ export default function NewGameForm({ connectionManager }: NewGameFormProps) {
 		(event: React.SubmitEvent<HTMLFormElement>) => {
 			event.preventDefault();
 			if (readyRef.current?.checked) {
-				connectionManager.send(ClientEvent.StartGame);
+				connectionManager.send("start-game");
 			} else {
 				// TODO printError you are not ready
 			}
@@ -44,7 +43,7 @@ export default function NewGameForm({ connectionManager }: NewGameFormProps) {
 						onChange={() => {}}
 						onClick={(event) => {
 							const target = event.target as HTMLInputElement;
-							connectionManager?.send(ClientEvent.ClientReady, {
+							connectionManager?.send("player-ready", {
 								ready: target.checked,
 							});
 							setIsPlayerReady(target.checked);

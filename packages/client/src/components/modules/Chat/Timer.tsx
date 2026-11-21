@@ -1,7 +1,7 @@
 import { useToastStore } from "@store/store";
 import { useEffect, useRef, useState } from "react";
+import type { TimePayload } from "spyfall-protocol";
 import { create } from "zustand";
-import type { TimePayload } from "../../../types/timePayload.type";
 import TimeDisplay from "./TimeDisplay";
 
 interface TimerState {

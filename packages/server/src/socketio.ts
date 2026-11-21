@@ -1,7 +1,13 @@
 import type { Server as HttpServer } from "node:http";
 import process from "node:process";
 import { Server, type ServerOptions } from "socket.io";
+import type {
+	ClientToServerEvents,
+	ServerToClientEvents,
+} from "spyfall-protocol";
 import { logger } from "./logger.ts";
+
+export type GameServer = Server<ClientToServerEvents, ServerToClientEvents>;
 
 export function initSocketIO(server: HttpServer) {
 	const corsOrigins = process.env.CORS_ALLOW?.split(",");
@@ -13,5 +19,8 @@ export function initSocketIO(server: HttpServer) {
 		},
 	};
 
-	return new Server(server, serverOptions);
+	return new Server<ClientToServerEvents, ServerToClientEvents>(
+		server,
+		serverOptions,
+	);
 }
